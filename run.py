@@ -6,7 +6,7 @@ import os
 import csv
 import datetime
 import investmentportfolio
-import instrumentanalytics
+import simulated_instrument_analytics
 
 print ('Running portfolio.compute.py')
 app = Flask(__name__)
@@ -113,6 +113,7 @@ def get_unit_test_portfolios():
     Returns the available user portfolio names in the Investment Portfolio service.
     Uses type='user_portfolio' to specify.
     '''
+    print("test")
     portfolio_names = []
     res = investmentportfolio.Get_Portfolios_by_Selector('type','unit test portfolio')
     try:
@@ -159,7 +160,7 @@ def compute_unit_tests():
     if data:
         analytics = data["analytics"]
     else:
-        analytics = ['THEO/Price','THEO/Value']
+        analytics = ['Price','Value']
     results = []
 
     for p in portfolios:
@@ -167,33 +168,36 @@ def compute_unit_tests():
         holdings = investmentportfolio.Get_Portfolio_Holdings(p,False)['holdings']
         #Since the payload is too large, odds are there are 500-instrument chunks added to the portfolio.
         for ph in range(0,len(holdings)):
-            instruments = [row['instrumentId'] for row in holdings[ph]['holdings']]
+
+            #TEMPORARY WORKAROUND SINCE ID-TYPE not in legacy holdings...
+            #Strip out "CX_" and "_XYZ" using split on underscore
+            instruments = [{'id':row['instrumentId'].split("_")[1],"type":"isin"} for row in holdings[ph]['holdings']]
             print("Processing " + str(p) + " portfolio segment #"+str(ph) +".")
             #send 500 IDs at a time to Instrument Analytics Service:
             #for i in instruments...
             for i in range(0,len(instruments),500):
                 ids = instruments[i:i+500]
-                ia = instrumentanalytics.Compute_InstrumentAnalytics(ids,analytics)
+                ia = simulated_instrument_analytics.simulate(ids,analytics)
                 #for j in results...
                 if 'error' not in ia:
-                    for j in ia:
+                    for j in ia['results']:
                         r = {
-                            "portfolio":p,
-                            "id":j['instrument']}
+                                "portfolio":p,
+                                "ID":j['ID'],
+                                "Currency":j["Currency"],
+                                "Simulation Date":j["Simulation Date"],
+                                "Name":j["Name"]
+                            }
                         for a in analytics:
-                            r[a] = j['values'][0][a]
-                        r["date"] = j['values'][0]['date']
-                        h = [row for row in holdings[0]['holdings'] if j['instrument']==row['instrumentId']][0]
+                            r[a] = j[a]
+                        h = [row for row in holdings[0]['holdings'] if j['ID'] in row['instrumentId']][0] #Note: "in" is a workaround as we transition from old IDs ("CX_<id>_<XYZ>") to new ids
                         for key,value in h.items():
-                            if key not in ['instrumentId']:
+                            if key not in ['instrumentId','Currency','Name','name','CURRENCY','PRICE']:
                                 r[key] = value
+                        print(r)
                         results.append(r)
-                #Debug
-                if i+500<len(instruments):
-                    l = i+500
-                else:
-                    l = len(instruments)
-                print("Processed securities " + str(i) + " through " + str(l) + ". Time elapsed on this portfolio: " + str(datetime.datetime.now() - portfolio_start))
+                    
+                print("Processed securities " + str(i) + " through " + str(i + 500) + ". Time elapsed on this portfolio: " + str(datetime.datetime.now() - portfolio_start))
 
     print("Unit testing completed. Total time elapsed: " + str(datetime.datetime.now() - start_time))
     return Response(json.dumps(results), mimetype='application/json')

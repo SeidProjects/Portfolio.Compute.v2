@@ -109,7 +109,7 @@ function Process(data) {
   $('.title1 h3').text(holdings_title);
   th = '<tr style="width: 100%"><th>Name</th><th>ID</th><th>Quantity</th>'
   for (var key in data[0]) {
-    if (['name', 'quantity', 'id', 'portfolio', 'date'].includes(key) == false) {
+    if (['name', 'Name','quantity', 'ID', 'portfolio', 'Simulation Date'].includes(key) == false) {
       th += "<th>" + AnalyticName(key) + "</th>";
     }
   }
@@ -120,19 +120,32 @@ function Process(data) {
   var holdingsDataLength = data.length;
   var tr = "";
   for (var i = 0; i < holdingsDataLength; i++) {
-    var name = data[i].name;
-    var identifier = data[i].id;
+    var name = data[i].Name;
+    var identifier = data[i].ID;
     var quantity = data[i].quantity;
     //create row in table
     tr += "<tr tabindex='0' aria-label=" + name + "><td>" + name + "</td><td>" + identifier + "</td><td>" + quantity + "</td>";
     for (var key in data[i]) {
-      if (['name', 'quantity', 'id', 'portfolio', 'date'].includes(key) == false) {
+      if (['name','Name','quantity', 'ID', 'portfolio', 'Simulation Date'].includes(key) == false) {
         tr += "<td>" + data[i][key] + "</td>";
       }
     }
     tr += "</tr>"
   }
   $('.port-table tbody').html(tr);
+
+  $('#results').DataTable( {
+          columnDefs: [ {
+              targets: [ 0 ],
+              orderData: [ 0, 1 ]
+          }, {
+              targets: [ 1 ],
+              orderData: [ 1, 0 ]
+          }, {
+              targets: [ 4 ],
+              orderData: [ 4, 0 ]
+          } ]
+      } );
 }
 
 //sort the objects on key

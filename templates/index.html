@@ -88,44 +88,44 @@
                 <th></th>
               </tr>
               <tr>
-                <td><br><input type='checkbox' name='analytics' value='THEO/Price' checked='checked'>Price (Clean Price)<br></td>
-                <td><br><input type='checkbox' name='analytics' value='THEO/Accrued Interest'>Accrued Interest<br></td>
-                <td><br><input type='checkbox' name='analytics' value='THEO/Delta'>Delta<br></td>
+                <td><br><input type='checkbox' name='analytics' value='Price' checked='checked'>Price (Clean Price)<br></td>
+                <td><br><input type='checkbox' name='analytics' value='Accrued Interest'>Accrued Interest<br></td>
+                <td><br><input type='checkbox' name='analytics' value='Delta'>Delta<br></td>
                 <td></td>
               </tr>
               <tr>
-                <td><br><input type='checkbox' name='analytics' value='THEO/Value' checked='checked'>Value (Dirty Price)<br></td>
-                <td><br><input type='checkbox' name='analytics' value='THEO/Yield'>Yield<br></td>
-                <td><br><input type='checkbox' name='analytics' value='THEO/Domestic Rho'>Domestic Rho<br></td>
+                <td><br><input type='checkbox' name='analytics' value='Value' checked='checked'>Value (Dirty Price)<br></td>
+                <td><br><input type='checkbox' name='analytics' value='Yield'>Yield<br></td>
+                <td><br><input type='checkbox' name='analytics' value='Rho'>Rho<br></td>
                 <td></td>
               </tr>
               <tr>
-                <td><br><input type='checkbox' name='analytics' value='THEO/Exposure'>Exposure<br></td>
-                <td><br><input type='checkbox' name='analytics' value='THEO/Macaulay Duration'>Macaulay Duration<br></td>
-                <td><br><input type='checkbox' name='analytics' value='THEO/Gamma'>Gamma<br></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td><br><input type='checkbox' name='analytics' value='THEO/Adjusted Duration'>Adjusted Duration<br></td>
-                <td><br><input type='checkbox' name='analytics' value='THEO/Theta'>Theta<br></td>
+                <td><br><input type='checkbox' name='analytics' value='Exposure'>Exposure<br></td>
+                <td><br><input type='checkbox' name='analytics' value='Macaulay Duration'>Macaulay Duration<br></td>
+                <td><br><input type='checkbox' name='analytics' value='Gamma'>Gamma<br></td>
                 <td></td>
               </tr>
               <tr>
                 <td></td>
-                <td><br><input type='checkbox' name='analytics' value='THEO/Effective Duration'>Effective Duration<br></td>
-                <td><br><input type='checkbox' name='analytics' value='THEO/Vega'>Vega<br></td>
+                <td><br><input type='checkbox' name='analytics' value='Adjusted Duration'>Adjusted Duration<br></td>
+                <td><br><input type='checkbox' name='analytics' value='Theta'>Theta<br></td>
                 <td></td>
               </tr>
               <tr>
                 <td></td>
-                <td><br><input type='checkbox' name='analytics' value='THEO/Adjusted Duration2'>Spread Duration<br></td>
+                <td><br><input type='checkbox' name='analytics' value='Effective Duration'>Effective Duration<br></td>
+                <td><br><input type='checkbox' name='analytics' value='Vega'>Vega<br></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td><br><input type='checkbox' name='analytics' value='Monetary Duration'>Monetary Duration<br></td>
                 <td></td>
                 <td></td>
               </tr>
               <tr>
                 <td></td>
-                <td><br><input type='checkbox' name='Effective Convexity' value='THEO/Effective Convexity'>Effective Convexity<br></td>
+                <td><br><input type='checkbox' name='analytics' value='Effective Convexity'>Effective Convexity<br></td>
                 <td></td>
                 <td></td>
               </tr>
@@ -234,7 +234,7 @@
         </div>
         <div class="port-table__wrapper">
           <div class="port-table">
-            <table>
+            <table id="results" data-table>
               <thead>
               </thead>
               <tbody>
@@ -280,3 +280,4 @@
     location.reload();
   });
 </script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>

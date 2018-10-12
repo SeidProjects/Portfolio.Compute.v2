@@ -3802,9 +3802,6 @@ body {
   .node-title p {
     margin-bottom: 16px; }
 
-::-webkit-scrollbar {
-  display: none; }
-
 .sandboxtwo {
   overflow-x: hidden;
   /*this should probably be the following, but this is last minute before a presentation
